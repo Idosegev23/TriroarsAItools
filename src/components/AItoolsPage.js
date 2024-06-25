@@ -1,33 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSpring, animated, config } from 'react-spring';
-import { TextField, Select, MenuItem, Button, Typography, Container, Grid, ThemeProvider, createTheme } from '@mui/material';
+import { TextField, Select, MenuItem, Button, Typography, Container, Grid, ThemeProvider, createTheme, IconButton } from '@mui/material';
 import styled, { keyframes, ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { Tilt } from 'react-tilt';
 import { ParallaxProvider } from 'react-scroll-parallax';
 import { useInView } from 'react-intersection-observer';
 import logo from '../assets/NewLogo_BLANK.png';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 // Define a custom theme
 const theme = createTheme({
-  spacing: 8, // Define a base spacing unit
+  spacing: 8,
 });
 
 const move = keyframes`
   0% {
-    left: -10%;
+    top: -15vh;
   }
   100% {
-    left: 100%;
+    top: 100%;
   }
 `;
 
 const generateRandomPositionAndDelay = () => {
   const positions = [];
   for (let i = 0; i < 10; i++) {
-    const randomTop = Math.random() * 100;
+    const randomLeft = Math.random() * 100;
     const randomDelay = Math.random() * 5;
-    positions.push({ top: randomTop, delay: randomDelay });
+    positions.push({ left: randomLeft, delay: randomDelay });
   }
   return positions;
 };
@@ -46,21 +49,19 @@ const StyledContainer = styled(Container)`
 
 const LinesContainer = styled.div`
   position: absolute;
-  top: 0%; /* מתחיל מהכותרת */
-  left: 0;
+  top: 0;
+  left: 20%;
   right: 0;
   bottom: 0;
-  margin: auto;
-  height: calc(100vh - 10px);
   width: 100%;
+  height: 100%;
+  overflow: hidden;
 `;
 
 const Line = styled.div`
   position: absolute;
-  height: 1px;
-  width: 100%;
-  top: 0%
-  left: 0;
+  width: 1px;
+  height: 100%;
   background: rgba(98, 35, 140, 0.1);
   overflow: hidden;
 
@@ -68,11 +69,11 @@ const Line = styled.div`
     content: '';
     display: block;
     position: absolute;
-    width: 15vw;
-    height: 50%;
-    top: 0%;
-    left: -50%;
-    background: linear-gradient(to right, rgba(98, 35, 140, 0) 0%, #62238C 75%, #62238C 100%);
+    height: 15vh;
+    width: 100%;
+    top: -50%;
+    left: 0;
+    background: linear-gradient(to bottom, rgba(98, 35, 140, 0) 0%, #62238C 75%, #62238C 100%);
     animation: ${move} 7s 0s infinite;
     animation-fill-mode: forwards;
     animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
@@ -112,20 +113,6 @@ const SearchContainer = styled.div`
   z-index: 1;
 `;
 
-const ToolCard = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: ${props => props.theme.spacing(3)}px;
-  text-align: center;
-  transition: transform 0.3s ease-in-out;
-  &:hover {
-    transform: translateY(-5px);
-  }
-`;
-
 const StyledButton = styled(Button)`
   background: linear-gradient(45deg, rgba(98,35,140,0.8) 30%, rgba(191,75,129,0.8) 90%);
   border: 0;
@@ -140,6 +127,38 @@ const StyledButton = styled(Button)`
     box-shadow: 0 6px 10px 4px rgba(255, 105, 135, .3);
   }
 `;
+
+const SocialLinksContainer = styled.div`
+  position: fixed;
+  left: ${props => props.theme.spacing(2)}px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: ${props => props.theme.spacing(2)}px;
+  z-index: 1000;
+`;
+
+const SocialIconButton = styled(IconButton)`
+  background-color: #62238C !important;
+  color: white !important;
+  &:hover {
+    background-color: #BF4B81 !important;
+  }
+`;
+
+const TikTokIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clipPath="url(#clip0)">
+      <path d="M34.8916 0H26.2875V32.7688C26.2875 36.5917 23.1833 39.6959 19.3604 39.6959C15.5375 39.6959 12.4333 36.5917 12.4333 32.7688C12.4333 29.0146 15.4688 25.9479 19.1833 25.8417V17.1688C10.6146 17.275 3.76245 24.2125 3.76245 32.7688C3.76245 41.3938 10.7354 48.3667 19.3604 48.3667C28.0541 48.3667 34.9583 41.4625 34.9583 32.7688V16.0167C38.1312 18.2667 42.0229 19.5875 46.1833 19.6562V10.9833C39.9979 10.7688 34.8916 5.93752 34.8916 0Z" fill="white"/>
+    </g>
+    <defs>
+      <clipPath id="clip0">
+        <rect width="48" height="48" fill="white"/>
+      </clipPath>
+    </defs>
+  </svg>
+);
 
 const categories = [
   'תמונות / ליפסינק',
@@ -242,13 +261,58 @@ const aiTools = [
   { category: 'מצגות / דוחות / מאמרים', name: 'Office Co-Pilot', usage: '', link: 'https://copilot.cloud.microsoft/en-us/prompts', price: 'בתשלום', difficulty: 'מתחילים' },
   { category: 'ניתוח נתונים', name: 'Julius AI', usage: '', link: 'https://julius.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' }
 ];
+const ToolCard = React.memo(({ tool, index }) => (
+  <Grid item xs={12} sm={6} md={4}>
+    <Tilt options={{ max: 25, scale: 1.05, perspective: 1000 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.2 }}
+        style={{
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '16px',
+          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+          backdropFilter: 'blur(5px)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
+          padding: '24px',
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1, color: '#62238C' }}>
+          {tool.name}
+        </Typography>
+        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
+          <strong>קטגוריה:</strong> {tool.category}
+        </Typography>
+        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
+          <strong>שימוש:</strong> {tool.usage}
+        </Typography>
+        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
+          <strong>מחיר:</strong> {tool.price}
+        </Typography>
+        <Typography variant="body2" sx={{ marginBottom: 2, color: '#0D0D0D' }}>
+          <strong>דרגת קושי:</strong> {tool.difficulty}
+        </Typography>
+        <StyledButton
+          variant="contained"
+          href={tool.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          קח אותי לשם
+        </StyledButton>
+      </motion.div>
+    </Tilt>
+  </Grid>
+));
+
 const AItoolsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [difficultyFilter, setDifficultyFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
-  const [filteredTools, setFilteredTools] = useState(aiTools);
-
+  
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -266,15 +330,16 @@ const AItoolsPage = () => {
     config: config.wobbly,
   });
 
-  useEffect(() => {
-    const filtered = aiTools.filter(tool =>
+  const filterTools = useCallback((tools) => {
+    return tools.filter(tool =>
       tool.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (!difficultyFilter || tool.difficulty === difficultyFilter) &&
       (!priceFilter || tool.price.includes(priceFilter)) &&
       (!categoryFilter || tool.category === categoryFilter)
     );
-    setFilteredTools(filtered);
   }, [searchTerm, difficultyFilter, priceFilter, categoryFilter]);
+
+  const filteredTools = useMemo(() => filterTools(aiTools), [filterTools]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -283,7 +348,7 @@ const AItoolsPage = () => {
           <StyledContainer maxWidth={false}>
             <LinesContainer>
               {randomPositions.map((position, index) => (
-                <Line key={index} style={{ top: `${position.top}%`, animationDelay: `${position.delay}s` }} />
+                <Line key={index} style={{ left: `${position.left}%`, animationDelay: `${position.delay}s` }} />
               ))}
             </LinesContainer>
             <Header ref={ref}>
@@ -335,86 +400,70 @@ const AItoolsPage = () => {
                 value={difficultyFilter}
                 onChange={(e) => setDifficultyFilter(e.target.value)}
                 displayEmpty
-                sx={{ minWidth: '120px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
-              >
-                <MenuItem value="">רמת קושי</MenuItem>
-                <MenuItem value="מתחילים">מתחילים</MenuItem>
-                <MenuItem value="בינוני">בינוני</MenuItem>
-                <MenuItem value="מתקדמים">מתקדמים</MenuItem>
-              </Select>
-              <Select
-                value={priceFilter}
-                onChange={(e) => setPriceFilter(e.target.value)}
-                displayEmpty
-                sx={{ minWidth: '120px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
-              >
-                <MenuItem value="">עלות</MenuItem>
-                <MenuItem value="חינם">חינם</MenuItem>
-                <MenuItem value="בתשלום">בתשלום</MenuItem>
-              </Select>
-              <Select
-                value={categoryFilter}
-                onChange={(e) => setCategoryFilter(e.target.value)}
-                displayEmpty
-                sx={{ minWidth: '150px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
-              >
-                <MenuItem value="">קטגוריה</MenuItem>
-                {categories.map((category) => (
-                  <MenuItem key={category} value={category}>
-                    {category}
-                  </MenuItem>
-                ))}
-              </Select>
-            </SearchContainer>
-            <Grid container spacing={4}>
-              <AnimatePresence>
-                {filteredTools.map((tool, index) => (
-                  <Grid item xs={12} sm={6} md={4} key={tool.name}>
-                    <Tilt options={{ max: 25, scale: 1.05, perspective: 1000 }}>
-                      <ToolCard
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 50 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                      >
-                        <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1, color: '#62238C' }}>
-                          {tool.name}
-                        </Typography>
-                        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
-                          <strong>קטגוריה:</strong> {tool.category}
-                        </Typography>
-                        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
-                          <strong>שימוש:</strong> {tool.usage}
-                        </Typography>
-                        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
-                          <strong>מחיר:</strong> {tool.price}
-                        </Typography>
-                        <Typography variant="body2" sx={{ marginBottom: 2, color: '#0D0D0D' }}>
-                          <strong>דרגת קושי:</strong> {tool.difficulty}
-                        </Typography>
-                        <StyledButton
-                          variant="contained"
-                          href={tool.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          קח אותי לשם
-                        </StyledButton>
-                      </ToolCard>
-                    </Tilt>
-                  </Grid>
-                ))}
-              </AnimatePresence>
-            </Grid>
-
-            <Typography variant="body2" sx={{ textAlign: 'center', marginTop: 4, color: '#0D0D0D' }}>
-              נבנה בעזרת AI | קרדיט: יובל אבידני
-            </Typography>
-          </StyledContainer>
-        </ParallaxProvider>
-      </StyledThemeProvider>
-    </ThemeProvider>
-  );
-};
-
-export default AItoolsPage;
+                sx={{ minWidth: '120px', color: '#0D0D0D', '& .MuiSelect-icon':
+                  { color: '#0D0D0D' } }}
+                  >
+                    <MenuItem value="">רמת קושי</MenuItem>
+                    <MenuItem value="מתחילים">מתחילים</MenuItem>
+                    <MenuItem value="בינוני">בינוני</MenuItem>
+                    <MenuItem value="מתקדמים">מתקדמים</MenuItem>
+                  </Select>
+                  <Select
+                    value={priceFilter}
+                    onChange={(e) => setPriceFilter(e.target.value)}
+                    displayEmpty
+                    sx={{ minWidth: '120px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
+                  >
+                    <MenuItem value="">עלות</MenuItem>
+                    <MenuItem value="חינם">חינם</MenuItem>
+                    <MenuItem value="בתשלום">בתשלום</MenuItem>
+                  </Select>
+                  <Select
+                    value={categoryFilter}
+                    onChange={(e) => setCategoryFilter(e.target.value)}
+                    displayEmpty
+                    sx={{ minWidth: '150px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
+                  >
+                    <MenuItem value="">קטגוריה</MenuItem>
+                    {categories.map((category) => (
+                      <MenuItem key={category} value={category}>
+                        {category}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </SearchContainer>
+                
+                <Grid container spacing={4}>
+                  <AnimatePresence>
+                    {filteredTools.map((tool, index) => (
+                      <ToolCard key={tool.name} tool={tool} index={index} />
+                    ))}
+                  </AnimatePresence>
+                </Grid>
+    
+                <SocialLinksContainer>
+                  <SocialIconButton href="https://www.facebook.com/profile.php?id=61553596496338" target="_blank" rel="noopener noreferrer">
+                    <FacebookIcon />
+                  </SocialIconButton>
+                  <SocialIconButton href="https://www.instagram.com/triroars/" target="_blank" rel="noopener noreferrer">
+                    <InstagramIcon />
+                  </SocialIconButton>
+                  <SocialIconButton href="https://www.tiktok.com/@triroars" target="_blank" rel="noopener noreferrer">
+                    <TikTokIcon />
+                  </SocialIconButton>
+                  <SocialIconButton href="https://chat.whatsapp.com/Er9gUVQ0zxsF1BDSQlCbMC" target="_blank" rel="noopener noreferrer">
+                    <WhatsAppIcon />
+                  </SocialIconButton>
+                </SocialLinksContainer>
+    
+                <Typography variant="body2" sx={{ textAlign: 'center', marginTop: 4, color: '#0D0D0D' }}>
+                  נבנה בעזרת AI | קרדיט: יובל אבידני
+                </Typography>
+              </StyledContainer>
+            </ParallaxProvider>
+          </StyledThemeProvider>
+        </ThemeProvider>
+      );
+    };
+    
+    export default AItoolsPage;
