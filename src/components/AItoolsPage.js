@@ -1,10 +1,184 @@
-// src/components/AItoolsPage.js
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import logo from '../assets/logo11.png'; // נתיב ללוגו
-import 'tailwindcss/tailwind.css';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useSpring, animated, config } from 'react-spring';
+import { TextField, Select, MenuItem, Button, Typography, Container, Grid, ThemeProvider, createTheme } from '@mui/material';
+import styled, { keyframes, ThemeProvider as StyledThemeProvider } from 'styled-components';
+import { Tilt } from 'react-tilt';
+import { ParallaxProvider } from 'react-scroll-parallax';
+import { useInView } from 'react-intersection-observer';
+import logo from '../assets/NewLogo_BLANK.png';
 
-// רשימת כלי AI
+// Define a custom theme
+const theme = createTheme({
+  spacing: 8, // Define a base spacing unit
+});
+
+const move = keyframes`
+  0% {
+    left: -10%;
+  }
+  100% {
+    left: 100%;
+  }
+`;
+
+const generateRandomPositionAndDelay = () => {
+  const positions = [];
+  for (let i = 0; i < 10; i++) {
+    const randomTop = Math.random() * 100;
+    const randomDelay = Math.random() * 5;
+    positions.push({ top: randomTop, delay: randomDelay });
+  }
+  return positions;
+};
+
+const randomPositions = generateRandomPositionAndDelay();
+
+const StyledContainer = styled(Container)`
+  min-height: 100vh;
+  padding: ${props => props.theme.spacing(4)}px;
+  direction: rtl;
+  position: relative;
+  overflow: hidden;
+  background-color: #FFFFFF;
+  color: #0D0D0D;
+`;
+
+const LinesContainer = styled.div`
+  position: absolute;
+  top: 0%; /* מתחיל מהכותרת */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: calc(100vh - 10px);
+  width: 100%;
+`;
+
+const Line = styled.div`
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  top: 0%
+  left: 0;
+  background: rgba(98, 35, 140, 0.1);
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 15vw;
+    height: 50%;
+    top: 0%;
+    left: -50%;
+    background: linear-gradient(to right, rgba(98, 35, 140, 0) 0%, #62238C 75%, #62238C 100%);
+    animation: ${move} 7s 0s infinite;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
+  }
+`;
+
+const Header = styled.header`
+  text-align: center;
+  margin-bottom: ${props => props.theme.spacing(8)}px;
+  position: relative;
+  padding-top: 50px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+`;
+
+const Logo = styled.img`
+  height: 200px;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+`;
+
+const SearchContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: ${props => props.theme.spacing(2)}px;
+  margin-bottom: ${props => props.theme.spacing(6)}px;
+  background: rgba(98, 35, 140, 0.1);
+  padding: ${props => props.theme.spacing(3)}px;
+  border-radius: 16px;
+  position: relative;
+  z-index: 1;
+`;
+
+const ToolCard = styled(motion.div)`
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: ${props => props.theme.spacing(3)}px;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: translateY(-5px);
+  }
+`;
+
+const StyledButton = styled(Button)`
+  background: linear-gradient(45deg, rgba(98,35,140,0.8) 30%, rgba(191,75,129,0.8) 90%);
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 3px 5px 2px rgba(255, 105, 135, .3);
+  color: white;
+  height: 48px;
+  padding: 0 30px;
+  transition: all 0.3s;
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px 4px rgba(255, 105, 135, .3);
+  }
+`;
+
+const categories = [
+  'תמונות / ליפסינק',
+  'מודל שפה גדול',
+  'תמונות / וידאו',
+  'אוואטרים / ליפסינק',
+  'תמונות / עריכה גרפית',
+  'תמונות / עריכה גרפית / וידאו',
+  'מוזיקה',
+  'מידול קולי / סוכני AI קוליים',
+  'מידול קולי',
+  'קוד פתוח',
+  'קורסים - למידת מכונה',
+  'אוטומציה',
+  'ללא קוד - קריאות API',
+  'ללא קוד - יצירת סוכנים',
+  'תמונות / גרפיקה / וידאו',
+  'שירותי ענן ליצירת תמונות',
+  'קורסים - למידת מכונה בפייתון',
+  'תמונות',
+  'יצירת תמונות / הגדלת איכות תמונה',
+  'המרת תמונות לתלת מימד עם עומק',
+  'תמונות / גרפיקה',
+  'החלפת פנים בתמונות / וידאו',
+  'ללא קוד - פיתוח אתרים',
+  'וידאו',
+  'אופנה',
+  'מודלים של שפה',
+  'סוכני AI קוליים',
+  'חיפוש מידע',
+  'תמלול ויצירת כתוביות',
+  'תמלול ויצירת כתוביות / עריכת וידאו',
+  'כתיבת קוד',
+  'פיתוח',
+  'מחקר',
+  'מצגות / דוחות / מאמרים',
+  'ניתוח נתונים'
+];
+
 const aiTools = [
   { category: 'תמונות / ליפסינק', name: 'Artflow', usage: 'יצירת תמונות, אימון מודל על תמונות שלנו, ליפסינק לאוואטרים, יצירת סרטונים', link: 'https://artflow.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
   { category: 'מודל שפה גדול', name: 'ChatGPT', usage: 'מענה על שאלות בכל הנושאים, יכולת ליצור ולערוך תמונות', link: 'https://chat.openai.com', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
@@ -68,117 +242,179 @@ const aiTools = [
   { category: 'מצגות / דוחות / מאמרים', name: 'Office Co-Pilot', usage: '', link: 'https://copilot.cloud.microsoft/en-us/prompts', price: 'בתשלום', difficulty: 'מתחילים' },
   { category: 'ניתוח נתונים', name: 'Julius AI', usage: '', link: 'https://julius.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' }
 ];
-
 const AItoolsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [difficultyFilter, setDifficultyFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
+  const [filteredTools, setFilteredTools] = useState(aiTools);
 
-  // סינון הכלים לפי החיפוש והסינון
-  const filteredTools = aiTools.filter(tool => 
-    tool.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (difficultyFilter === '' || tool.difficulty === difficultyFilter) &&
-    (priceFilter === '' || tool.price.includes(priceFilter)) &&
-    (categoryFilter === '' || tool.category === categoryFilter)
-  );
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const headerAnimation = useSpring({
+    opacity: inView ? 1 : 0,
+    transform: inView ? 'translateY(0)' : 'translateY(-50px)',
+    config: config.molasses,
+  });
+
+  const titleAnimation = useSpring({
+    from: { opacity: 0, transform: 'scale(0.8)' },
+    to: { opacity: 1, transform: 'scale(1)' },
+    config: config.wobbly,
+  });
+
+  useEffect(() => {
+    const filtered = aiTools.filter(tool =>
+      tool.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (!difficultyFilter || tool.difficulty === difficultyFilter) &&
+      (!priceFilter || tool.price.includes(priceFilter)) &&
+      (!categoryFilter || tool.category === categoryFilter)
+    );
+    setFilteredTools(filtered);
+  }, [searchTerm, difficultyFilter, priceFilter, categoryFilter]);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4" dir="rtl">
-      <header className="text-center mb-8">
-        <img src={logo} alt="KA Logo" className="h-56 mx-auto mb-4" />
-        <h1 className="text-4xl font-bold text-[#D9A25F]">כלי AI מובילים</h1>
-      </header>
+    <ThemeProvider theme={theme}>
+      <StyledThemeProvider theme={theme}>
+        <ParallaxProvider>
+          <StyledContainer maxWidth={false}>
+            <LinesContainer>
+              {randomPositions.map((position, index) => (
+                <Line key={index} style={{ top: `${position.top}%`, animationDelay: `${position.delay}s` }} />
+              ))}
+            </LinesContainer>
+            <Header ref={ref}>
+              <animated.div style={headerAnimation}>
+                <Logo src={logo} alt="KA Logo" />
+                <animated.div style={titleAnimation}>
+                  <Typography variant="h2" sx={{ 
+                    fontWeight: 'bold', 
+                    marginBottom: 2, 
+                    color: '#62238C',
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+                    '@media (max-width:600px)': {
+                      fontSize: '2.5rem',
+                    },
+                  }}>
+                    כלי AI מובילים
+                  </Typography>
+                </animated.div>
+                <Typography variant="h5" sx={{ 
+                  marginBottom: 4, 
+                  color: '#0D0D0D',
+                  '@media (max-width:600px)': {
+                    fontSize: '1.2rem',
+                  },
+                }}>
+                  גלה את הכלים החדשניים ביותר בתחום הבינה המלאכותית
+                </Typography>
+              </animated.div>
+            </Header>
 
-      <div className="container mx-auto">
-        <div className="flex flex-wrap justify-center mb-6 space-x-4">
-          <input 
-            type="text" 
-            placeholder="חפש כלי..." 
-            className="p-2 border rounded-lg shadow-md focus:outline-none focus:ring"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-          />
-          <select 
-            className="p-2 border rounded-lg shadow-md focus:outline-none focus:ring ml-4"
-            value={difficultyFilter}
-            onChange={e => setDifficultyFilter(e.target.value)}
-          >
-            <option value="">רמת קושי</option>
-            <option value="מתחילים">מתחילים</option>
-            <option value="בינוני">בינוני</option>
-            <option value="מתקדמים">מתקדמים</option>
-          </select>
-          <select 
-            className="p-2 border rounded-lg shadow-md focus:outline-none focus:ring ml-4"
-            value={priceFilter}
-            onChange={e => setPriceFilter(e.target.value)}
-          >
-            <option value="">עלות</option>
-            <option value="חינם">חינם</option>
-            <option value="בתשלום">בתשלום</option>
-          </select>
-          <select 
-            className="p-2 border rounded-lg shadow-md focus:outline-none focus:ring ml-4"
-            value={categoryFilter}
-            onChange={e => setCategoryFilter(e.target.value)}
-          >
-            <option value="">קטגוריה</option>
-            <option value="תמונות / ליפסינק">תמונות / ליפסינק</option>
-            <option value="מודל שפה גדול">מודל שפה גדול</option>
-            <option value="תמונות / וידאו">תמונות / וידאו</option>
-            <option value="אוואטרים / ליפסינק">אוואטרים / ליפסינק</option>
-            <option value="תמונות / עריכה גרפית">תמונות / עריכה גרפית</option>
-            <option value="תמונות / עריכה גרפית / וידאו">תמונות / עריכה גרפית / וידאו</option>
-            <option value="מוזיקה">מוזיקה</option>
-            <option value="וידאו">וידאו</option>
-            <option value="אופנה">אופנה</option>
-            <option value="ללא קוד - פיתוח אתרים">ללא קוד - פיתוח אתרים</option>
-            <option value="ללא קוד - קריאות API">ללא קוד - קריאות API</option>
-            <option value="ללא קוד - יצירת סוכנים">ללא קוד - יצירת סוכנים</option>
-            <option value="קוד פתוח">קוד פתוח</option>
-            <option value="קורסים - למידת מכונה">קורסים - למידת מכונה</option>
-            <option value="אוטומציה">אוטומציה</option>
-            <option value="שירותי ענן ליצירת תמונות">שירותי ענן ליצירת תמונות</option>
-            <option value="קורסים - למידת מכונה בפייתון">קורסים - למידת מכונה בפייתון</option>
-            <option value="יצירת תמונות / הגדלת איכות תמונה">יצירת תמונות / הגדלת איכות תמונה</option>
-            <option value="תמונות / גרפיקה / וידאו">תמונות / גרפיקה / וידאו</option>
-            <option value="מצגות / דוחות / מאמרים">מצגות / דוחות / מאמרים</option>
-            <option value="ניתוח נתונים">ניתוח נתונים</option>
-            <option value="כתיבת קוד">כתיבת קוד</option>
-            <option value="פיתוח">פיתוח</option>
-            <option value="מחקר">מחקר</option>
-            <option value="מודל שפה גדול">מודל שפה גדול</option>
-            <option value="תמלול ויצירת כתוביות">תמלול ויצירת כתוביות</option>
-            <option value="תמלול ויצירת כתוביות / עריכת וידאו">תמלול ויצירת כתוביות / עריכת וידאו</option>
-            <option value="מודלים של שפה">מודלים של שפה</option>
-          </select>
-        </div>
+            <SearchContainer>
+              <TextField
+                label="חפש כלי..."
+                variant="outlined"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                sx={{ 
+                  flexGrow: 1, 
+                  maxWidth: '300px', 
+                  input: { color: '#0D0D0D', textAlign: 'right' }, 
+                  '& label': { color: '#0D0D0D', right: 0, transformOrigin: 'right' },
+                  '& label.Mui-focused': { transformOrigin: 'right' }
+                }}
+                InputLabelProps={{
+                  style: { right: 14, left: 'auto' }
+                }}
+              />
+              <Select
+                value={difficultyFilter}
+                onChange={(e) => setDifficultyFilter(e.target.value)}
+                displayEmpty
+                sx={{ minWidth: '120px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
+              >
+                <MenuItem value="">רמת קושי</MenuItem>
+                <MenuItem value="מתחילים">מתחילים</MenuItem>
+                <MenuItem value="בינוני">בינוני</MenuItem>
+                <MenuItem value="מתקדמים">מתקדמים</MenuItem>
+              </Select>
+              <Select
+                value={priceFilter}
+                onChange={(e) => setPriceFilter(e.target.value)}
+                displayEmpty
+                sx={{ minWidth: '120px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
+              >
+                <MenuItem value="">עלות</MenuItem>
+                <MenuItem value="חינם">חינם</MenuItem>
+                <MenuItem value="בתשלום">בתשלום</MenuItem>
+              </Select>
+              <Select
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+                displayEmpty
+                sx={{ minWidth: '150px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
+              >
+                <MenuItem value="">קטגוריה</MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category} value={category}>
+                    {category}
+                  </MenuItem>
+                ))}
+              </Select>
+            </SearchContainer>
+            <Grid container spacing={4}>
+              <AnimatePresence>
+                {filteredTools.map((tool, index) => (
+                  <Grid item xs={12} sm={6} md={4} key={tool.name}>
+                    <Tilt options={{ max: 25, scale: 1.05, perspective: 1000 }}>
+                      <ToolCard
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 50 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                      >
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1, color: '#62238C' }}>
+                          {tool.name}
+                        </Typography>
+                        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
+                          <strong>קטגוריה:</strong> {tool.category}
+                        </Typography>
+                        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
+                          <strong>שימוש:</strong> {tool.usage}
+                        </Typography>
+                        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
+                          <strong>מחיר:</strong> {tool.price}
+                        </Typography>
+                        <Typography variant="body2" sx={{ marginBottom: 2, color: '#0D0D0D' }}>
+                          <strong>דרגת קושי:</strong> {tool.difficulty}
+                        </Typography>
+                        <StyledButton
+                          variant="contained"
+                          href={tool.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          קח אותי לשם
+                        </StyledButton>
+                      </ToolCard>
+                    </Tilt>
+                  </Grid>
+                ))}
+              </AnimatePresence>
+            </Grid>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTools.map((tool, index) => (
-            <motion.div 
-              key={index}
-              className="bg-white p-6 rounded-lg shadow-lg"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <h2 className="text-2xl font-bold text-[#0D0D0D] mb-2">{tool.name}</h2>
-              <p className="text-gray-700"><strong>קטגוריה:</strong> {tool.category}</p>
-              <p className="text-gray-700"><strong>שימוש:</strong> {tool.usage}</p>
-              <p className="text-gray-700"><strong>קישור:</strong> <a href={tool.link} className="text-[#D9A25F]" target="_blank" rel="noopener noreferrer">{tool.link}</a></p>
-              <p className="text-gray-700"><strong>מחיר:</strong> {tool.price}</p>
-              <p className="text-gray-700"><strong>דרגת קושי:</strong> {tool.difficulty}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-      <div className="mt-8 text-center">
-  <p className="text-gray-600">קרדיט: יובל אבידני</p>
-</div>
-    </div>
+            <Typography variant="body2" sx={{ textAlign: 'center', marginTop: 4, color: '#0D0D0D' }}>
+              נבנה בעזרת AI | קרדיט: יובל אבידני
+            </Typography>
+          </StyledContainer>
+        </ParallaxProvider>
+      </StyledThemeProvider>
+    </ThemeProvider>
   );
-}
+};
 
 export default AItoolsPage;
