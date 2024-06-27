@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSpring, animated, config } from 'react-spring';
 import { TextField, Select, MenuItem, Button, Typography, Container, Grid, ThemeProvider, createTheme, IconButton } from '@mui/material';
-import styled, { keyframes, ThemeProvider as StyledThemeProvider } from 'styled-components';
+import styled, { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { Tilt } from 'react-tilt';
 import { ParallaxProvider } from 'react-scroll-parallax';
 import { useInView } from 'react-intersection-observer';
@@ -16,27 +16,6 @@ const theme = createTheme({
   spacing: 8,
 });
 
-const move = keyframes`
-  0% {
-    top: -15vh;
-  }
-  100% {
-    top: 100%;
-  }
-`;
-
-const generateRandomPositionAndDelay = () => {
-  const positions = [];
-  for (let i = 0; i < 10; i++) {
-    const randomLeft = Math.random() * 100;
-    const randomDelay = Math.random() * 5;
-    positions.push({ left: randomLeft, delay: randomDelay });
-  }
-  return positions;
-};
-
-const randomPositions = generateRandomPositionAndDelay();
-
 const StyledContainer = styled(Container)`
   min-height: 100vh;
   padding: ${props => props.theme.spacing(4)}px;
@@ -45,39 +24,6 @@ const StyledContainer = styled(Container)`
   overflow: hidden;
   background-color: #FFFFFF;
   color: #0D0D0D;
-`;
-
-const LinesContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 20%;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-`;
-
-const Line = styled.div`
-  position: absolute;
-  width: 1px;
-  height: 100%;
-  background: rgba(98, 35, 140, 0.1);
-  overflow: hidden;
-
-  &::after {
-    content: '';
-    display: block;
-    position: absolute;
-    height: 15vh;
-    width: 100%;
-    top: -50%;
-    left: 0;
-    background: linear-gradient(to bottom, rgba(98, 35, 140, 0) 0%, #62238C 75%, #62238C 100%);
-    animation: ${move} 7s 0s infinite;
-    animation-fill-mode: forwards;
-    animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
-  }
 `;
 
 const Header = styled.header`
@@ -160,6 +106,52 @@ const TikTokIcon = () => (
   </svg>
 );
 
+const ToolCard = React.memo(({ tool, index }) => (
+  <Grid item xs={12} sm={6} md={4}>
+    <Tilt options={{ max: 25, scale: 1.05, perspective: 1000 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.2 }}
+        style={{
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '16px',
+          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+          backdropFilter: 'blur(5px)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
+          padding: '24px',
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1, color: '#62238C' }}>
+          {tool.name}
+        </Typography>
+        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
+          <strong>קטגוריה:</strong> {tool.category}
+        </Typography>
+        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
+          <strong>שימוש:</strong> {tool.usage}
+        </Typography>
+        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
+          <strong>מחיר:</strong> {tool.price}
+        </Typography>
+        <Typography variant="body2" sx={{ marginBottom: 2, color: '#0D0D0D' }}>
+          <strong>דרגת קושי:</strong> {tool.difficulty}
+        </Typography>
+        <StyledButton
+          variant="contained"
+          href={tool.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          קח אותי לשם
+        </StyledButton>
+      </motion.div>
+    </Tilt>
+  </Grid>
+));
+
 const categories = [
   'תמונות / ליפסינק',
   'מודל שפה גדול',
@@ -215,7 +207,7 @@ const aiTools = [
   { category: 'מידול קולי', name: 'Elevenlabs', usage: '', link: 'https://elevenlabs.io', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
   { category: 'מידול קולי', name: 'Kits.AI', usage: '', link: 'https://www.kits.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
   { category: 'מידול קולי', name: 'Weights.gg', usage: '', link: 'https://weights.gg', price: 'חינם', difficulty: 'מתחילים' },
-  { category: 'מידול קולי', name: 'Replay AI', usage: '', link: 'https://www.tryreplay.io', price: 'חינם', difficulty: 'מתחילים' },
+{ category: 'מידול קולי', name: 'Replay AI', usage: '', link: 'https://www.tryreplay.io', price: 'חינם', difficulty: 'מתחילים' },
   { category: 'מידול קולי', name: 'RVC Training', usage: '', link: 'https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI/releases', price: 'חינם', difficulty: 'מתקדמים' },
   { category: 'קוד פתוח', name: 'HuggingFace', usage: '', link: 'https://huggingface.co', price: 'חינם', difficulty: 'מתקדמים' },
   { category: 'קורסים - למידת מכונה', name: 'deeplearning.ai', usage: '', link: 'https://deeplearning.ai', price: 'חינם', difficulty: 'מתקדמים' },
@@ -261,51 +253,6 @@ const aiTools = [
   { category: 'מצגות / דוחות / מאמרים', name: 'Office Co-Pilot', usage: '', link: 'https://copilot.cloud.microsoft/en-us/prompts', price: 'בתשלום', difficulty: 'מתחילים' },
   { category: 'ניתוח נתונים', name: 'Julius AI', usage: '', link: 'https://julius.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' }
 ];
-const ToolCard = React.memo(({ tool, index }) => (
-  <Grid item xs={12} sm={6} md={4}>
-    <Tilt options={{ max: 25, scale: 1.05, perspective: 1000 }}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.2 }}
-        style={{
-          background: 'rgba(255, 255, 255, 0.1)',
-          borderRadius: '16px',
-          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-          backdropFilter: 'blur(5px)',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
-          padding: '24px',
-          textAlign: 'center',
-        }}
-      >
-        <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1, color: '#62238C' }}>
-          {tool.name}
-        </Typography>
-        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
-          <strong>קטגוריה:</strong> {tool.category}
-        </Typography>
-        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
-          <strong>שימוש:</strong> {tool.usage}
-        </Typography>
-        <Typography variant="body2" sx={{ marginBottom: 1, color: '#0D0D0D' }}>
-          <strong>מחיר:</strong> {tool.price}
-        </Typography>
-        <Typography variant="body2" sx={{ marginBottom: 2, color: '#0D0D0D' }}>
-          <strong>דרגת קושי:</strong> {tool.difficulty}
-        </Typography>
-        <StyledButton
-          variant="contained"
-          href={tool.link}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          קח אותי לשם
-        </StyledButton>
-      </motion.div>
-    </Tilt>
-  </Grid>
-));
 
 const AItoolsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -346,11 +293,6 @@ const AItoolsPage = () => {
       <StyledThemeProvider theme={theme}>
         <ParallaxProvider>
           <StyledContainer maxWidth={false}>
-            <LinesContainer>
-              {randomPositions.map((position, index) => (
-                <Line key={index} style={{ left: `${position.left}%`, animationDelay: `${position.delay}s` }} />
-              ))}
-            </LinesContainer>
             <Header ref={ref}>
               <animated.div style={headerAnimation}>
                 <Logo src={logo} alt="KA Logo" />
@@ -400,70 +342,69 @@ const AItoolsPage = () => {
                 value={difficultyFilter}
                 onChange={(e) => setDifficultyFilter(e.target.value)}
                 displayEmpty
-                sx={{ minWidth: '120px', color: '#0D0D0D', '& .MuiSelect-icon':
-                  { color: '#0D0D0D' } }}
-                  >
-                    <MenuItem value="">רמת קושי</MenuItem>
-                    <MenuItem value="מתחילים">מתחילים</MenuItem>
-                    <MenuItem value="בינוני">בינוני</MenuItem>
-                    <MenuItem value="מתקדמים">מתקדמים</MenuItem>
-                  </Select>
-                  <Select
-                    value={priceFilter}
-                    onChange={(e) => setPriceFilter(e.target.value)}
-                    displayEmpty
-                    sx={{ minWidth: '120px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
-                  >
-                    <MenuItem value="">עלות</MenuItem>
-                    <MenuItem value="חינם">חינם</MenuItem>
-                    <MenuItem value="בתשלום">בתשלום</MenuItem>
-                  </Select>
-                  <Select
-                    value={categoryFilter}
-                    onChange={(e) => setCategoryFilter(e.target.value)}
-                    displayEmpty
-                    sx={{ minWidth: '150px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
-                  >
-                    <MenuItem value="">קטגוריה</MenuItem>
-                    {categories.map((category) => (
-                      <MenuItem key={category} value={category}>
-                        {category}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </SearchContainer>
-                
-                <Grid container spacing={4}>
-                  <AnimatePresence>
-                    {filteredTools.map((tool, index) => (
-                      <ToolCard key={tool.name} tool={tool} index={index} />
-                    ))}
-                  </AnimatePresence>
-                </Grid>
-    
-                <SocialLinksContainer>
-                  <SocialIconButton href="https://www.facebook.com/profile.php?id=61553596496338" target="_blank" rel="noopener noreferrer">
-                    <FacebookIcon />
-                  </SocialIconButton>
-                  <SocialIconButton href="https://www.instagram.com/triroars/" target="_blank" rel="noopener noreferrer">
-                    <InstagramIcon />
-                  </SocialIconButton>
-                  <SocialIconButton href="https://www.tiktok.com/@triroars" target="_blank" rel="noopener noreferrer">
-                    <TikTokIcon />
-                  </SocialIconButton>
-                  <SocialIconButton href="https://chat.whatsapp.com/Er9gUVQ0zxsF1BDSQlCbMC" target="_blank" rel="noopener noreferrer">
-                    <WhatsAppIcon />
-                  </SocialIconButton>
-                </SocialLinksContainer>
-    
-                <Typography variant="body2" sx={{ textAlign: 'center', marginTop: 4, color: '#0D0D0D' }}>
-                  נבנה בעזרת AI | קרדיט: יובל אבידני
-                </Typography>
-              </StyledContainer>
-            </ParallaxProvider>
-          </StyledThemeProvider>
-        </ThemeProvider>
-      );
-    };
-    
-    export default AItoolsPage;
+                sx={{ minWidth: '120px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
+              >
+                <MenuItem value="">רמת קושי</MenuItem>
+<MenuItem value="מתחילים">מתחילים</MenuItem>
+                <MenuItem value="בינוני">בינוני</MenuItem>
+                <MenuItem value="מתקדמים">מתקדמים</MenuItem>
+              </Select>
+              <Select
+                value={priceFilter}
+                onChange={(e) => setPriceFilter(e.target.value)}
+                displayEmpty
+                sx={{ minWidth: '120px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
+              >
+                <MenuItem value="">עלות</MenuItem>
+                <MenuItem value="חינם">חינם</MenuItem>
+                <MenuItem value="בתשלום">בתשלום</MenuItem>
+              </Select>
+              <Select
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+                displayEmpty
+                sx={{ minWidth: '150px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
+              >
+                <MenuItem value="">קטגוריה</MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category} value={category}>
+                    {category}
+                  </MenuItem>
+                ))}
+              </Select>
+            </SearchContainer>
+
+            <Grid container spacing={4}>
+              <AnimatePresence>
+                {filteredTools.map((tool, index) => (
+                  <ToolCard key={tool.name} tool={tool} index={index} />
+                ))}
+              </AnimatePresence>
+            </Grid>
+
+            <SocialLinksContainer>
+              <SocialIconButton href="https://www.facebook.com/profile.php?id=61553596496338" target="_blank" rel="noopener noreferrer">
+                <FacebookIcon />
+              </SocialIconButton>
+              <SocialIconButton href="https://www.instagram.com/triroars/" target="_blank" rel="noopener noreferrer">
+                <InstagramIcon />
+              </SocialIconButton>
+              <SocialIconButton href="https://www.tiktok.com/@triroars" target="_blank" rel="noopener noreferrer">
+                <TikTokIcon />
+              </SocialIconButton>
+              <SocialIconButton href="https://chat.whatsapp.com/Er9gUVQ0zxsF1BDSQlCbMC" target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon />
+              </SocialIconButton>
+            </SocialLinksContainer>
+
+            <Typography variant="body2" sx={{ textAlign: 'center', marginTop: 4, color: '#0D0D0D' }}>
+              נבנה בעזרת AI | קרדיט: יובל אבידני
+            </Typography>
+          </StyledContainer>
+        </ParallaxProvider>
+      </StyledThemeProvider>
+    </ThemeProvider>
+  );
+};
+
+export default AItoolsPage;
