@@ -10,6 +10,7 @@ import logo from '../assets/NewLogo_BLANK.png';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import HomeIcon from '@mui/icons-material/Home';
 
 // Define a custom theme
 const theme = createTheme({
@@ -203,55 +204,70 @@ const aiTools = [
   { category: 'תמונות / עריכה גרפית / וידאו', name: 'Leonardo', usage: 'יצירת תמונות, אימון מודלים, יצירת קטעי וידאו קצרים', link: 'https://leonardo.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
   { category: 'מוזיקה', name: 'Suno', usage: 'יצירת מוזיקה', link: 'https://suno.com', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
   { category: 'אוואטרים / ליפסינק', name: 'Yepic', usage: 'ליפסינק', link: 'https://www.yepic.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
-  { category: 'מידול קולי / סוכני AI קוליים', name: 'Play.ht', usage: '', link: 'https://play.ht', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
-  { category: 'מידול קולי', name: 'Elevenlabs', usage: '', link: 'https://elevenlabs.io', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
-  { category: 'מידול קולי', name: 'Kits.AI', usage: '', link: 'https://www.kits.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
-  { category: 'מידול קולי', name: 'Weights.gg', usage: '', link: 'https://weights.gg', price: 'חינם', difficulty: 'מתחילים' },
-{ category: 'מידול קולי', name: 'Replay AI', usage: '', link: 'https://www.tryreplay.io', price: 'חינם', difficulty: 'מתחילים' },
-  { category: 'מידול קולי', name: 'RVC Training', usage: '', link: 'https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI/releases', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'קוד פתוח', name: 'HuggingFace', usage: '', link: 'https://huggingface.co', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'קורסים - למידת מכונה', name: 'deeplearning.ai', usage: '', link: 'https://deeplearning.ai', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'אוטומציה', name: 'Zapier Central', usage: '', link: 'https://zapier.com/central', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
-  { category: 'אוטומציה', name: 'make.com', usage: '', link: 'https://www.make.com/en', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
-  { category: 'ללא קוד - קריאות API', name: 'Bubble', usage: '', link: 'https://bubble.io', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
-  { category: 'ללא קוד - יצירת סוכנים', name: 'officely.ai', usage: '', link: 'https://www.officely.ai', price: 'בתשלום', difficulty: 'בינוני' },
-  { category: 'ללא קוד - יצירת סוכנים', name: 'fastbots.ai', usage: '', link: 'https://fastbots.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
-  { category: 'ללא קוד - יצירת סוכנים', name: 'uchat', usage: '', link: 'https://www.uchat.com.au', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
-  { category: 'ללא קוד - יצירת סוכנים', name: 'Flowise ai', usage: '', link: 'https://flowiseai.com', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'תמונות / גרפיקה / וידאו', name: 'Automatic1111', usage: '', link: 'https://github.com/AUTOMATIC1111/stable-diffusion-webui', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'תמונות / גרפיקה / וידאו', name: 'ComfyUI', usage: '', link: 'https://github.com/comfyanonymous/ComfyUI', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'שירותי ענן ליצירת תמונות', name: 'RunDiffusion', usage: '', link: 'https://rundiffusion.com', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
-  { category: 'שירותי ענן ליצירת תמונות', name: 'DiffusionHub', usage: '', link: 'https://diffusionhub.io', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
-  { category: 'קורסים - למידת מכונה בפייתון', name: 'nnfs.io', usage: '', link: 'https://nnfs.io', price: 'בתשלום', difficulty: 'מתקדמים' },
-  { category: 'תמונות', name: 'Midjourney', usage: '', link: 'https://www.midjourney.com/home', price: 'בתשלום', difficulty: 'מתחילים' },
-  { category: 'יצירת תמונות / הגדלת איכות תמונה', name: 'Krea.ai', usage: '', link: 'https://www.krea.ai/home', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
-  { category: 'תמונות', name: 'glif.ai', usage: '', link: 'https://glif.app/glifs', price: 'חינם', difficulty: 'מתחילים' },
-  { category: 'המרת תמונות לתלת מימד עם עומק', name: 'LeiaPix', usage: '', link: 'https://convert.leiapix.com', price: 'חינם', difficulty: 'מתחילים' },
-  { category: 'תמונות / גרפיקה', name: 'Adobe Firefly', usage: '', link: 'https://firefly.adobe.com', price: 'חינם', difficulty: 'מתחילים' },
-  { category: 'תמונות / גרפיקה', name: 'Ideogram.ai', usage: '', link: 'https://ideogram.ai', price: 'חינם', difficulty: 'מתחילים' },
-  { category: 'החלפת פנים בתמונות / וידאו', name: 'miocreate', usage: '', link: 'https://www.miocreate.com', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
-  { category: 'ללא קוד - פיתוח אתרים', name: 'mobirise', usage: '', link: 'https://mobirise.com', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
-  { category: 'וידאו', name: 'PIKA', usage: '', link: 'https://pika.art', price: 'בתשלום', difficulty: 'מתחילים' },
-  { category: 'וידאו', name: 'PixVerse', usage: '', link: 'https://pixverse.ai', price: 'חינם', difficulty: 'מתחילים' },
-  { category: 'וידאו', name: 'Viggle', usage: '', link: 'https://viggle.ai', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'אופנה', name: 'IDM VTON', usage: '', link: 'https://huggingface.co/spaces/yisol/IDM-VTON', price: 'חינם', difficulty: 'מתחילים' },
-  { category: 'מודלים של שפה', name: 'OOGA-BOOGA', usage: '', link: 'https://github.com/oobabooga/text-generation-webui', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'מודלים של שפה', name: 'LM Studio', usage: '', link: 'https://lmstudio.ai', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'מודלים של שפה', name: 'Ollama', usage: '', link: 'https://ollama.com', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'סוכני AI קוליים', name: 'Hume.ai', usage: '', link: 'https://www.hume.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
-  { category: 'חיפוש מידע', name: 'Mendable', usage: '', link: 'https://www.mendable.ai', price: 'בתשלום', difficulty: 'מתקדמים' },
-  { category: 'חיפוש מידע', name: 'Gitbook Lens', usage: '', link: 'https://docs.gitbook.com/content-editor/searching-your-content/gitbook-ai', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'מידול קולי', name: 'רובו-שאול', usage: '', link: 'https://github.com/maxmelichov/Text-To-speech', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'מודל של שפה', name: 'Groq', usage: '', link: 'https://groq.com', price: 'חינם', difficulty: 'מתחילים' },
-  { category: 'תמלול ויצירת כתוביות', name: 'Captions', usage: '', link: 'https://www.captions.ai', price: 'בתשלום', difficulty: 'מתחילים' },
-  { category: 'תמלול ויצירת כתוביות / עריכת וידאו', name: 'Kapwing', usage: '', link: 'https://www.kapwing.com', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
-  { category: 'וידאו', name: 'CapCut', usage: '', link: 'https://www.capcut.com', price: 'חינם', difficulty: 'מתחילים' },
-  { category: 'כתיבת קוד', name: 'Github Co-Pilot', usage: '', link: 'https://github.com/features/copilot', price: 'חינם', difficulty: 'מתקדמים' },
-  { category: 'פיתוח', name: 'Devin', usage: '', link: 'https://preview.devin.ai', price: 'חינם', difficulty: 'מתחילים' },
-  { category: 'מחקר', name: 'Perplexity', usage: '', link: 'https://www.perplexity.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
-  { category: 'מודל שפה גדול', name: 'Microsoft Co-Pilot', usage: '', link: 'https://copilot.microsoft.com', price: 'חינם', difficulty: 'מתחילים' },
-  { category: 'מצגות / דוחות / מאמרים', name: 'Office Co-Pilot', usage: '', link: 'https://copilot.cloud.microsoft/en-us/prompts', price: 'בתשלום', difficulty: 'מתחילים' },
-  { category: 'ניתוח נתונים', name: 'Julius AI', usage: '', link: 'https://julius.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' }
+  { category: 'מידול קולי / סוכני AI קוליים', name: 'Play.ht', usage: 'יצירת קולות מלאכותיים', link: 'https://play.ht', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'מידול קולי', name: 'Elevenlabs', usage: 'יצירת קולות מלאכותיים', link: 'https://elevenlabs.io', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'מידול קולי', name: 'Kits.AI', usage: 'יצירת קולות מלאכותיים', link: 'https://www.kits.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'מידול קולי', name: 'Weights.gg', usage: 'יצירת קולות מלאכותיים', link: 'https://weights.gg', price: 'חינם', difficulty: 'מתחילים' },
+  { category: 'מידול קולי', name: 'Replay AI', usage: 'יצירת קולות מלאכותיים', link: 'https://www.tryreplay.io', price: 'חינם', difficulty: 'מתחילים' },
+  { category: 'מידול קולי', name: 'RVC Training', usage: 'אימון מודלי קול', link: 'https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI/releases', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'קוד פתוח', name: 'HuggingFace', usage: 'פלטפורמה למודלי AI קוד פתוח', link: 'https://huggingface.co', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'קורסים - למידת מכונה', name: 'deeplearning.ai', usage: 'קורסים ללמידת מכונה', link: 'https://deeplearning.ai', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'אוטומציה', name: 'Zapier Central', usage: 'אוטומציה של משימות', link: 'https://zapier.com/central', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
+  { category: 'אוטומציה', name: 'make.com', usage: 'אוטומציה של משימות', link: 'https://www.make.com/en', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
+  { category: 'ללא קוד - קריאות API', name: 'Bubble', usage: 'פיתוח אפליקציות ללא קוד', link: 'https://bubble.io', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
+  { category: 'ללא קוד - יצירת סוכנים', name: 'officely.ai', usage: 'יצירת סוכני AI', link: 'https://www.officely.ai', price: 'בתשלום', difficulty: 'בינוני' },
+  { category: 'ללא קוד - יצירת סוכנים', name: 'fastbots.ai', usage: 'יצירת בוטים מהירה', link: 'https://fastbots.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'ללא קוד - יצירת סוכנים', name: 'uchat', usage: 'יצירת בוטים לצ\'אט', link: 'https://www.uchat.com.au', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
+  { category: 'ללא קוד - יצירת סוכנים', name: 'Flowise ai', usage: 'יצירת סוכני AI בגישה ויזואלית', link: 'https://flowiseai.com', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'תמונות / גרפיקה / וידאו', name: 'Automatic1111', usage: 'ממשק למודלי יצירת תמונות', link: 'https://github.com/AUTOMATIC1111/stable-diffusion-webui', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'תמונות / גרפיקה / וידאו', name: 'ComfyUI', usage: 'ממשק ויזואלי ליצירת תמונות', link: 'https://github.com/comfyanonymous/ComfyUI', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'שירותי ענן ליצירת תמונות', name: 'RunDiffusion', usage: 'שירות ענן ליצירת תמונות', link: 'https://rundiffusion.com', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
+  { category: 'שירותי ענן ליצירת תמונות', name: 'DiffusionHub', usage: 'שירות ענן ליצירת תמונות', link: 'https://diffusionhub.io', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
+  { category: 'קורסים - למידת מכונה בפייתון', name: 'nnfs.io', usage: 'קורסים למידת מכונה בפייתון', link: 'https://nnfs.io', price: 'בתשלום', difficulty: 'מתקדמים' },
+  { category: 'תמונות', name: 'Midjourney', usage: 'יצירת תמונות איכותיות', link: 'https://www.midjourney.com/home', price: 'בתשלום', difficulty: 'מתחילים' },
+  { category: 'יצירת תמונות / הגדלת איכות תמונה', name: 'Krea.ai', usage: 'יצירת תמונות והגדלת איכות', link: 'https://www.krea.ai/home', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'תמונות', name: 'glif.ai', usage: 'יצירת תמונות פשוטה', link: 'https://glif.app/glifs', price: 'חינם', difficulty: 'מתחילים' },
+  { category: 'המרת תמונות לתלת מימד עם עומק', name: 'LeiaPix', usage: 'המרת תמונות לתלת מימד', link: 'https://convert.leiapix.com', price: 'חינם', difficulty: 'מתחילים' },
+  { category: 'תמונות / גרפיקה', name: 'Adobe Firefly', usage: 'יצירת תמונות של אדובי', link: 'https://firefly.adobe.com', price: 'חינם', difficulty: 'מתחילים' },
+  { category: 'תמונות / גרפיקה', name: 'Ideogram.ai', usage: 'יצירת תמונות עם טקסט', link: 'https://ideogram.ai', price: 'חינם', difficulty: 'מתחילים' },
+  { category: 'החלפת פנים בתמונות / וידאו', name: 'miocreate', usage: 'החלפת פנים', link: 'https://www.miocreate.com', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'ללא קוד - פיתוח אתרים', name: 'mobirise', usage: 'בניית אתרים ללא קוד', link: 'https://mobirise.com', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
+  { category: 'וידאו', name: 'PIKA', usage: 'יצירת וידאו מטקסט', link: 'https://pika.art', price: 'בתשלום', difficulty: 'מתחילים' },
+  { category: 'וידאו', name: 'PixVerse', usage: 'יצירת וידאו מטקסט', link: 'https://pixverse.ai', price: 'חינם', difficulty: 'מתחילים' },
+  { category: 'וידאו', name: 'Viggle', usage: 'יצירת וידאו עם תנועה', link: 'https://viggle.ai', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'אופנה', name: 'IDM VTON', usage: 'הלבשה וירטואלית', link: 'https://huggingface.co/spaces/yisol/IDM-VTON', price: 'חינם', difficulty: 'מתחילים' },
+  { category: 'מודלים של שפה', name: 'OOGA-BOOGA', usage: 'הרצת מודלי שפה מקומיים', link: 'https://github.com/oobabooga/text-generation-webui', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'מודלים של שפה', name: 'LM Studio', usage: 'הרצת מודלי שפה מקומיים', link: 'https://lmstudio.ai', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'מודלים של שפה', name: 'Ollama', usage: 'הרצת מודלי שפה מקומיים', link: 'https://ollama.com', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'סוכני AI קוליים', name: 'Hume.ai', usage: 'סוכני AI עם רגש', link: 'https://www.hume.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'חיפוש מידע', name: 'Mendable', usage: 'חיפוש מידע חכם', link: 'https://www.mendable.ai', price: 'בתשלום', difficulty: 'מתקדמים' },
+  { category: 'חיפוש מידע', name: 'Gitbook Lens', usage: 'חיפוש בתוכן', link: 'https://docs.gitbook.com/content-editor/searching-your-content/gitbook-ai', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'מידול קולי', name: 'רובו-שאול', usage: 'מידול קולי בעברית', link: 'https://github.com/maxmelichov/Text-To-speech', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'מודל של שפה', name: 'Groq', usage: 'מודל שפה מהיר', link: 'https://groq.com', price: 'חינם', difficulty: 'מתחילים' },
+  { category: 'תמלול ויצירת כתוביות', name: 'Captions', usage: 'יצירת כתוביות אוטומטית', link: 'https://www.captions.ai', price: 'בתשלום', difficulty: 'מתחילים' },
+  { category: 'תמלול ויצירת כתוביות / עריכת וידאו', name: 'Kapwing', usage: 'עריכת וידאו וכתוביות', link: 'https://www.kapwing.com', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
+  { category: 'וידאו', name: 'CapCut', usage: 'עריכת וידאו פשוטה', link: 'https://www.capcut.com', price: 'חינם', difficulty: 'מתחילים' },
+  { category: 'כתיבת קוד', name: 'Github Co-Pilot', usage: 'עזרה בכתיבת קוד', link: 'https://github.com/features/copilot', price: 'חינם', difficulty: 'מתקדמים' },
+  { category: 'פיתוח', name: 'Devin', usage: 'מפתח AI אוטונומי', link: 'https://preview.devin.ai', price: 'חינם', difficulty: 'מתחילים' },
+  { category: 'מחקר', name: 'Perplexity', usage: 'מנוע חיפוש מבוסס AI', link: 'https://www.perplexity.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'מודל שפה גדול', name: 'Microsoft Co-Pilot', usage: 'עוזר AI של מיקרוסופט', link: 'https://copilot.microsoft.com', price: 'חינם', difficulty: 'מתחילים' },
+  { category: 'מצגות / דוחות / מאמרים', name: 'Office Co-Pilot', usage: 'עזרה ביצירת מסמכי Office', link: 'https://copilot.cloud.microsoft/en-us/prompts', price: 'בתשלום', difficulty: 'מתחילים' },
+  { category: 'ניתוח נתונים', name: 'Julius AI', usage: 'ניתוח נתונים וסטטיסטיקה', link: 'https://julius.ai', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  
+  // הכלים החדשים שביקשת להוסיף
+  { category: 'מחקר', name: 'NotebookLM', usage: 'כלי מחקר מבוסס AI של גוגל, ניהול מידע, סיכומים, יצירת פודקאסטים מהמידע', link: 'https://notebooklm.google.com', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'תמונות / עריכה גרפית', name: 'PromeAI', usage: 'פלטפורמה מקיפה ליצירת תמונות AI, הפיכת סקיצות לתמונות ריאליסטיות, רנדרים אדריכליים', link: 'https://www.promeai.pro', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'תמונות', name: 'Reve.art', usage: 'מחולל תמונות AI מתקדם, מתמחה ב-prompt adherence, aesthetics ו-typography', link: 'https://reve.art', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'מצגות / דוחות / מאמרים', name: 'Gamma', usage: 'יצירת מצגות, אתרים ומסמכים מקצועיים מטקסט פשוט, ללא צורך בכישורי עיצוב', link: 'https://gamma.app', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  
+  // כלים נוספים פופולריים ב-2025
+  { category: 'מודל שפה גדול', name: 'DeepSeek', usage: 'מודל שפה מתקדם וחדשני, מתחרה ב-OpenAI, מתמחה בהיגיון ויצירה', link: 'https://deepseek.com', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'וידאו', name: 'Synthesia', usage: 'יצירת וידאו עם אוואטרים מדברים, תוכן הדרכה ומצגות וידאו מקצועיות', link: 'https://synthesia.io', price: 'בתשלום', difficulty: 'מתחילים' },
+  { category: 'תמלול ויצירת כתוביות / עריכת וידאו', name: 'Descript', usage: 'עריכת וידאו באמצעות עריכת טקסט, תמלול אוטומטי ועריכה מתקדמת', link: 'https://descript.com', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'וידאו', name: 'Runway', usage: 'יצירת וידאו מבוסס AI מתקדם, Gen-3 Alpha, עריכה יצירתית וכלים מתקדמים', link: 'https://runwayml.com', price: 'חינם / בתשלום', difficulty: 'בינוני' },
+  { category: 'כתיבת קוד', name: 'Cursor', usage: 'עורך קוד מבוסס AI מתקדם, עזרה בכתיבה ועריכת קוד בזמן אמת', link: 'https://cursor.sh', price: 'חינם / בתשלום', difficulty: 'מתקדמים' },
+  { category: 'ללא קוד - פיתוח אתרים', name: 'Base44', usage: 'פלטפורמה ליצירת אפליקציות מלאות מטקסט פשוט, ללא קוד, עם בסיס נתונים ואיחסון מובנים', link: 'https://base44.com', price: 'חינם / בתשלום', difficulty: 'מתחילים' },
+  { category: 'ללא קוד - פיתוח אתרים', name: 'Loveable', usage: 'פלטפורמה מבוסת AI ליצירת אפליקציות web מתקדמות עם אינטגרציה ל-GitHub ו-Supabase', link: 'https://lovable.dev', price: 'חינם / בתשלום', difficulty: 'מתחילים' }
 ];
 
 const AItoolsPage = () => {
@@ -345,7 +361,7 @@ const AItoolsPage = () => {
                 sx={{ minWidth: '120px', color: '#0D0D0D', '& .MuiSelect-icon': { color: '#0D0D0D' } }}
               >
                 <MenuItem value="">רמת קושי</MenuItem>
-<MenuItem value="מתחילים">מתחילים</MenuItem>
+                <MenuItem value="מתחילים">מתחילים</MenuItem>
                 <MenuItem value="בינוני">בינוני</MenuItem>
                 <MenuItem value="מתקדמים">מתקדמים</MenuItem>
               </Select>
@@ -383,6 +399,9 @@ const AItoolsPage = () => {
             </Grid>
 
             <SocialLinksContainer>
+              <SocialIconButton href="https://triroars.co.il" target="_blank" rel="noopener noreferrer">
+                <HomeIcon />
+              </SocialIconButton>
               <SocialIconButton href="https://www.facebook.com/profile.php?id=61553596496338" target="_blank" rel="noopener noreferrer">
                 <FacebookIcon />
               </SocialIconButton>
