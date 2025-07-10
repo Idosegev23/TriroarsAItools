@@ -1,70 +1,144 @@
-# Getting Started with Create React App
+# 🚀 כלי AI מובילים 2025 - Glassmorphic Bento Edition
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+אתר מתקדם לכלי בינה מלאכותית עם עיצוב **Glassmorphic Bento Grid** חדשני המבוסס על הטרנדים החמים ביותר של 2025.
 
-## Available Scripts
+## ✨ התכונות החדשות
 
-In the project directory, you can run:
+### 🎨 עיצוב Glassmorphic
+- **כרטיסי זכוכית מעושנת** עם שקיפות של 20%
+- **Blur effects** מתקדמים ברקע
+- **צללים רכים** ואלגנטיים
+- **גרדיאנטים דינמיים** שמשתנים לאורך זמן
 
-### `npm start`
+### 📱 Bento Grid Layout
+- **רשת דינמית** שמתאימה לחשיבות הכלים
+- **5 גדלי כרטיסים שונים**: Large, Medium, Small, Wide, Tall
+- **מותאם למובייל** עם grid responsive
+- **פריסה אינטליגנטית** של התוכן
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🎬 אנימציות מתקדמות
+- **Framer Motion** לאנימציות חלקות
+- **Hover effects תלת מימדיים** עם rotateX ו-rotateY
+- **Entrance animations** עם stagger delay
+- **חלקיקים צפים** ברקע
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ הטכנולוגיות
 
-### `npm test`
+- **React 18** - ליבת הפרונטאנד
+- **Framer Motion** - אנימציות מתקדמות
+- **CSS Grid** - לrayout הBento
+- **CSS Backdrop Filter** - לאפקטי הזכוכית
+- **Material UI** - קומפוננטים בסיסיים
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🎯 המבנה החדש
 
-### `npm run build`
+### כרטיסי Hero (Large)
+```
+┌─────────────────┬─────────────────┐
+│   ChatGPT 🤖    │  Midjourney 🎨  │
+│   (6x3 grid)    │   (6x3 grid)    │
+│                 │                 │
+└─────────────────┴─────────────────┘
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### כרטיסים בגדלים שונים
+```
+┌─────────┬─────────┬─────────────┐
+│ Claude  │ Cursor  │ DeepSeek    │
+│ (4x2)   │ (4x2)   │ (4x4 tall)  │
+├─────────┼─────────┤             │
+│ Small 1 │ Small 2 │             │
+│ (3x2)   │ (3x2)   │             │
+├─────────┴─────────┼─────────────┤
+│   PromeAI (Wide)  │   RunwayML  │
+│      (8x2)        │    (4x2)    │
+└───────────────────┴─────────────┘
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🚀 הרצה מקומית
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **התקנת dependencies:**
+```bash
+npm install
+```
 
-### `npm run eject`
+2. **הרצת השרת:**
+```bash
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. **פתיחה בדפדפן:**
+```
+http://localhost:3000
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🔄 החלפה בין עיצובים
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+האתר כולל מערכת להחלפה בין עיצובים:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **כפתור "✨ עיצוב חדש 2025"** - מעבר לעיצוב Glassmorphic
+- **כפתור "🔄 עיצוב קלאסי"** - חזרה לעיצוב המקורי
 
-## Learn More
+## 📊 הכלים המוצגים
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### מודלי שפה גדולים
+- **ChatGPT** - המתקדם ביותר של OpenAI
+- **Claude** - Anthropic AI מתקדם
+- **DeepSeek** - מתחרה חדשני ל-OpenAI
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### יצירת תמונות ווידאו
+- **Midjourney** - איכות הגבוהה ביותר ליצירה אמנותית
+- **PromeAI** - רנדרים אדריכליים ועיצוב
+- **RunwayML** - יצירת וידאו מתקדמת
 
-### Code Splitting
+### כלי פיתוח
+- **Cursor** - עורך קוד עם AI מתקדם
+- **GitHub Copilot** - עזרה בכתיבת קוד
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### כלים נוספים
+- **Perplexity** - חיפוש מבוסס AI
+- **ElevenLabs** - יצירת קול מתקדם
+- **Gamma** - יצירת מצגות
+- **NotebookLM** - מחקר ופודקאסטים
 
-### Analyzing the Bundle Size
+## 🎨 עיצוב מותאם אישית
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### משתני CSS העיקריים
+```css
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --glass-backdrop: blur(20px);
+}
+```
 
-### Making a Progressive Web App
+### צבעי הקטגוריות
+- **AI Chat** - סגול (#6366f1)
+- **AI Image** - ורוד (#ec4899)
+- **AI Video** - כחול (#3b82f6)
+- **AI Code** - ירוק (#10b981)
+- **AI Voice** - כתום (#f59e0b)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 📱 Responsive Design
 
-### Advanced Configuration
+- **Desktop (>1200px)**: 12 עמודות
+- **Tablet (768-1200px)**: 8 עמודות
+- **Mobile (<768px)**: 4 עמודות
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+כל כרטיס מתאים את הגודל שלו אוטומטית לפי רוחב המסך.
 
-### Deployment
+## 🚧 פיתוח עתידי
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- [ ] הוספת theme switcher (light/dark)
+- [ ] אינטגרציה עם API לעדכון כלים
+- [ ] מערכת דירוגים ולייקים
+- [ ] פילטרים מתקדמים יותר
+- [ ] שמירת העדפות משתמש
 
-### `npm run build` fails to minify
+## 👨‍💻 קרדיטים
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**פותח על ידי:** יובל אבידני  
+**נבנה בעזרת:** Cursor AI  
+**עיצוב מבוסס על:** טרנדי 2025 העולמיים  
+**השראה:** Glassmorphism + Bento Grid
